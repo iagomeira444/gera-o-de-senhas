@@ -12,3 +12,5 @@ services:
         sync: false
       - key: SITE_URL
         sync: false
+      - key: GOOGLE_SITE_VERIFICATION
+        sync: false

@@ -497,7 +497,11 @@ async fn serve_index() -> impl IntoResponse {
     let html = include_str!("../static/index.html")
         .replace("__SITE_NAME__", &site_name())
         .replace("__SITE_DESCRIPTION__", DEFAULT_SITE_DESCRIPTION)
-        .replace("__SITE_URL__", &site_url());
+        .replace("__SITE_URL__", &site_url())
+        .replace(
+            "__GOOGLE_SITE_VERIFICATION_META__",
+            &google_site_verification_meta(),
+        );
 
     Html(html)
 }
@@ -564,6 +568,15 @@ fn site_url() -> String {
                 .filter(|value| !value.is_empty())
         })
         .unwrap_or_else(|| format!("https://{}", site_domain()))
+}
+
+fn google_site_verification_meta() -> String {
+    env::var("GOOGLE_SITE_VERIFICATION")
+        .ok()
+        .map(|value| value.trim().to_string())
+        .filter(|value| !value.is_empty())
+        .map(|value| format!(r#"<meta name="google-site-verification" content="{value}">"#))
+        .unwrap_or_default()
 }
 
 fn listen_port() -> u16 {

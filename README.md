@@ -35,6 +35,7 @@ git push
    - `SITE_NAME=Gerador de Senhas`
    - `SITE_URL=https://SEU-SERVICO.onrender.com`
    - `DOMAIN=SEU-SERVICO.onrender.com`
+   - `GOOGLE_SITE_VERIFICATION=SEU_TOKEN_DO_GOOGLE` (opcional, para verificacao por meta tag)
 7. Espere o deploy terminar e abra a URL publica.
 8. Confirme que estas rotas respondem:
    - `/`
@@ -51,11 +52,14 @@ Use a URL publica completa do Render, por exemplo:
 
 Depois:
 
-1. Verifique a propriedade pelo metodo que o Google oferecer.
-2. Envie o sitemap em:
+1. Se a verificacao por arquivo falhar, use o metodo `Tag HTML` no Google Search Console.
+2. Copie apenas o valor do campo `content` da meta tag do Google.
+3. No Render, adicione a variavel `GOOGLE_SITE_VERIFICATION` com esse valor e redeploy.
+4. Verifique a propriedade novamente.
+5. Envie o sitemap em:
    `https://gerador-senhas.onrender.com/sitemap.xml`
-3. Use a inspecao de URL para solicitar indexacao da pagina inicial.
-4. Aguarde o Google rastrear o site. Em hospedagem gratis isso pode levar algum tempo.
+6. Use a inspecao de URL para solicitar indexacao da pagina inicial.
+7. Aguarde o Google rastrear o site. Em hospedagem gratis isso pode levar algum tempo.
 
 ## Checklist final
 
