@@ -1,0 +1,27 @@
+{$DOMAIN} {
+    encode zstd gzip
+
+    header {
+        Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; manifest-src 'self'; require-trusted-types-for 'script'"
+        Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+        X-Content-Type-Options "nosniff"
+        X-Frame-Options "DENY"
+        Referrer-Policy "strict-origin-when-cross-origin"
+        Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=()"
+        Cross-Origin-Opener-Policy "same-origin"
+        Cross-Origin-Resource-Policy "same-origin"
+        Cross-Origin-Embedder-Policy "require-corp"
+        -Server
+    }
+
+    reverse_proxy app:3000 {
+        header_up X-Client-IP {remote_host}
+        header_up X-Real-IP {remote_host}
+        header_up X-Forwarded-For {remote_host}
+        header_up X-Forwarded-Proto {scheme}
+    }
+}
+
+www.{$DOMAIN} {
+    redir https://{$DOMAIN}{uri} 308
+}

@@ -1,0 +1,33 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Docker: Build",
+            "type": "shell",
+            "command": "docker build -t gerador-senhas .",
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "label": "Docker: Run",
+            "type": "shell",
+            "command": "docker rm -f gerador-senhas 2>$null; docker run -d --name gerador-senhas -p 3001:3000 gerador-senhas; Start-Process 'http://localhost:3001'",
+            "group": "test",
+            "problemMatcher": [],
+            "dependsOn": "Docker: Build"
+        },
+        {
+            "label": "Docker: Stop",
+            "type": "shell",
+            "command": "docker stop gerador-senhas",
+            "problemMatcher": []
+        },
+        {
+            "label": "Docker: Logs",
+            "type": "shell",
+            "command": "docker logs -f gerador-senhas",
+            "problemMatcher": [],
+            "isBackground": true
+        }
+    ]
+}

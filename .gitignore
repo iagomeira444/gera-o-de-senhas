@@ -1,0 +1,3 @@
+/target
+.env
+caddy-local-root.crt

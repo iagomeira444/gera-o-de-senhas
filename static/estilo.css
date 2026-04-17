@@ -1,0 +1,643 @@
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bg: #030711;
+    --surface: rgba(15, 18, 35, 0.6);
+    --surface-solid: #0c0f1d;
+    --surface-2: rgba(22, 26, 50, 0.5);
+    --surface-hover: rgba(30, 34, 65, 0.5);
+    --border: rgba(99, 102, 241, 0.1);
+    --border-hover: rgba(99, 102, 241, 0.25);
+    --text: #f1f5f9;
+    --text-dim: #64748b;
+    --primary: #818cf8;
+    --primary-deep: #6366f1;
+    --primary-glow: rgba(99, 102, 241, 0.2);
+    --accent: #22d3ee;
+    --accent-glow: rgba(34, 211, 238, 0.15);
+    --success: #34d399;
+    --radius: 14px;
+    --radius-lg: 20px;
+    --radius-xl: 24px;
+    --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    --blur: 20px;
+}
+
+body {
+    font-family: 'Inter', 'SF Pro Display', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 40px 16px;
+    overflow-x: hidden;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background:
+        radial-gradient(circle at 20% 20%, rgba(99, 102, 241, 0.07) 0%, transparent 40%),
+        radial-gradient(circle at 80% 80%, rgba(34, 211, 238, 0.05) 0%, transparent 40%),
+        radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.03) 0%, transparent 60%);
+    animation: bgShift 20s ease-in-out infinite alternate;
+    pointer-events: none;
+    z-index: 0;
+}
+
+@keyframes bgShift {
+    0% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+
+    100% {
+        transform: translate(2%, 2%) rotate(3deg);
+    }
+}
+
+/* ============================================================
+   APP CONTAINER
+   ============================================================ */
+.app {
+    width: 100%;
+    max-width: 480px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    position: relative;
+    z-index: 1;
+}
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 4px 0;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo h1 {
+    font-size: 1.4rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.badge {
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: var(--accent);
+    background: var(--accent-glow);
+    padding: 3px 8px;
+    border-radius: 6px;
+    border: 1px solid rgba(34, 211, 238, 0.2);
+    letter-spacing: 0.5px;
+}
+
+/* ============================================================
+   TABS
+   ============================================================ */
+.tabs {
+    display: flex;
+    gap: 3px;
+    background: var(--surface);
+    backdrop-filter: blur(var(--blur));
+    -webkit-backdrop-filter: blur(var(--blur));
+    padding: 4px;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+}
+
+.tab {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 10px 12px;
+    background: transparent;
+    border: none;
+    border-radius: 10px;
+    color: var(--text-dim);
+    font-size: 0.82rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition);
+    position: relative;
+}
+
+.tab:hover {
+    color: var(--text);
+    background: var(--surface-hover);
+}
+
+.tab.active {
+    color: #fff;
+    background: linear-gradient(135deg, var(--primary-deep), rgba(99, 102, 241, 0.8));
+    box-shadow:
+        0 2px 16px var(--primary-glow),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* ============================================================
+   SENHA BOX
+   ============================================================ */
+.senha-box {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--surface);
+    backdrop-filter: blur(var(--blur));
+    -webkit-backdrop-filter: blur(var(--blur));
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 18px 20px;
+    min-height: 68px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color var(--transition);
+}
+
+.senha-box:hover {
+    border-color: var(--border-hover);
+}
+
+.senha-box::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 5%, var(--primary) 30%, var(--accent) 70%, transparent 95%);
+    opacity: 0.4;
+}
+
+.senha-texto {
+    flex: 1;
+    font-family: 'JetBrains Mono', 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+    font-size: 1.05rem;
+    word-break: break-all;
+    line-height: 1.6;
+    color: var(--text);
+    user-select: all;
+    letter-spacing: 0.5px;
+}
+
+.senha-acoes {
+    display: flex;
+    gap: 6px;
+    flex-shrink: 0;
+}
+
+.btn-icone {
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text-dim);
+    cursor: pointer;
+    transition: all var(--transition);
+}
+
+.btn-icone:hover {
+    color: var(--primary);
+    border-color: var(--primary);
+    background: var(--primary-glow);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px var(--primary-glow);
+}
+
+/* ============================================================
+   FORÇA
+   ============================================================ */
+.forca-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.forca-barra {
+    height: 4px;
+    background: var(--surface-2);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.forca-progresso {
+    height: 100%;
+    width: 0%;
+    border-radius: 2px;
+    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1), background 0.4s ease;
+    position: relative;
+}
+
+.forca-progresso::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+    0% {
+        transform: translateX(-100%);
+    }
+
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+.forca-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.78rem;
+}
+
+.forca-info span:first-child {
+    font-weight: 600;
+    letter-spacing: 0.3px;
+}
+
+.forca-info span:last-child {
+    color: var(--text-dim);
+    font-weight: 400;
+}
+
+/* ============================================================
+   PAINÉIS DE OPÇÕES
+   ============================================================ */
+.painel {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    background: var(--surface);
+    backdrop-filter: blur(var(--blur));
+    -webkit-backdrop-filter: blur(var(--blur));
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    transition: border-color var(--transition);
+}
+
+.painel:hover {
+    border-color: var(--border-hover);
+}
+
+.painel.oculto {
+    display: none;
+}
+
+/* Slider */
+.controle-slider label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.82rem;
+    color: var(--text-dim);
+    margin-bottom: 10px;
+}
+
+.controle-slider label strong {
+    color: var(--primary);
+    font-size: 0.95rem;
+    font-weight: 700;
+}
+
+input[type="range"] {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-deep), var(--surface-2));
+    border-radius: 2px;
+    outline: none;
+    transition: background var(--transition);
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--primary);
+    cursor: pointer;
+    box-shadow: 0 0 0 4px var(--primary-glow), 0 2px 8px rgba(0, 0, 0, 0.3);
+    transition: all var(--transition);
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+    box-shadow: 0 0 0 6px var(--primary-glow), 0 2px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* Grid de checks */
+.controles-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+
+/* Checkboxes custom */
+.check-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.82rem;
+    color: var(--text-dim);
+    cursor: pointer;
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1px solid transparent;
+    transition: all var(--transition);
+}
+
+.check-item:hover {
+    background: var(--surface-hover);
+    border-color: var(--border);
+    color: var(--text);
+}
+
+.check-item input[type="checkbox"] {
+    display: none;
+}
+
+.checkmark {
+    width: 18px;
+    height: 18px;
+    border-radius: 5px;
+    border: 2px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition);
+    flex-shrink: 0;
+}
+
+.check-item input:checked+.checkmark {
+    background: linear-gradient(135deg, var(--primary-deep), var(--primary));
+    border-color: var(--primary);
+    box-shadow: 0 0 8px var(--primary-glow);
+}
+
+.check-item input:checked+.checkmark::after {
+    content: '✓';
+    color: white;
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.check-item:has(input:checked) {
+    color: var(--text);
+}
+
+/* Select */
+.controle-select {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.controle-select label {
+    font-size: 0.82rem;
+    color: var(--text-dim);
+}
+
+.controle-select select {
+    flex: 1;
+    max-width: 200px;
+    padding: 9px 12px;
+    background: var(--surface-solid);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    font-size: 0.82rem;
+    cursor: pointer;
+    outline: none;
+    transition: all var(--transition);
+}
+
+.controle-select select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--primary-glow);
+}
+
+/* ============================================================
+   BOTÃO GERAR
+   ============================================================ */
+.btn-gerar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, var(--primary-deep), var(--primary));
+    border: none;
+    border-radius: var(--radius);
+    color: #fff;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition);
+    box-shadow: 0 4px 24px var(--primary-glow);
+    position: relative;
+    overflow: hidden;
+    letter-spacing: 0.3px;
+}
+
+.btn-gerar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.12), transparent);
+    transition: left 0.5s ease;
+}
+
+.btn-gerar:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px var(--primary-glow);
+}
+
+.btn-gerar:hover::before {
+    left: 100%;
+}
+
+.btn-gerar:active {
+    transform: translateY(0);
+}
+
+.btn-gerar:disabled {
+    opacity: 0.5;
+    cursor: wait;
+    transform: none;
+    pointer-events: none;
+}
+
+/* ============================================================
+   STATS ROW (replaces info-section)
+   ============================================================ */
+.stats-row {
+    display: flex;
+    gap: 8px;
+}
+
+.stat-chip {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 10px 8px;
+    background: var(--surface);
+    backdrop-filter: blur(var(--blur));
+    -webkit-backdrop-filter: blur(var(--blur));
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    text-align: center;
+    transition: all var(--transition);
+}
+
+.stat-chip:hover {
+    border-color: var(--border-hover);
+    color: var(--text);
+}
+
+.stat-chip svg {
+    flex-shrink: 0;
+    opacity: 0.7;
+}
+
+
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.footer {
+    text-align: center;
+    padding-top: 8px;
+}
+
+.footer p {
+    font-size: 0.72rem;
+    color: var(--text-dim);
+    letter-spacing: 0.3px;
+    opacity: 0.6;
+}
+
+/* ============================================================
+   TOAST
+   ============================================================ */
+.toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: var(--surface);
+    backdrop-filter: blur(var(--blur));
+    -webkit-backdrop-filter: blur(var(--blur));
+    border: 1px solid var(--border-hover);
+    color: var(--text);
+    padding: 12px 24px;
+    border-radius: var(--radius);
+    font-size: 0.82rem;
+    font-weight: 500;
+    opacity: 0;
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 0 1px var(--border);
+    z-index: 1000;
+}
+
+.toast.visivel {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* ============================================================
+   LOADING SPINNER
+   ============================================================ */
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.spinner {
+    width: 18px;
+    height: 18px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+}
+
+/* ============================================================
+   RESPONSIVO
+   ============================================================ */
+@media (max-width: 540px) {
+    body {
+        padding: 20px 12px;
+    }
+
+    .controles-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .tab {
+        font-size: 0.75rem;
+        padding: 8px 6px;
+    }
+
+    .tab svg {
+        display: none;
+    }
+
+    .senha-texto {
+        font-size: 0.92rem;
+    }
+
+    .stats-row {
+        flex-direction: column;
+    }
+
+    .stat-chip {
+        flex: none;
+    }
+}

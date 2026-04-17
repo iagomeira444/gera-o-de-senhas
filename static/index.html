@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="__SITE_DESCRIPTION__">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <meta name="author" content="__SITE_NAME__">
+    <meta name="theme-color" content="#0f172a">
+    <link rel="canonical" href="__SITE_URL__/">
+    <meta property="og:locale" content="pt_BR">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="__SITE_NAME__ | Gerador de Senhas Seguras">
+    <meta property="og:description" content="__SITE_DESCRIPTION__">
+    <meta property="og:url" content="__SITE_URL__/">
+    <meta property="og:site_name" content="__SITE_NAME__">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="__SITE_NAME__ | Gerador de Senhas Seguras">
+    <meta name="twitter:description" content="__SITE_DESCRIPTION__">
+    <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; manifest-src 'self'; require-trusted-types-for 'script'">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=()">
+    <title>__SITE_NAME__ | Gerador de Senhas Seguras</title>
+    <link rel="stylesheet" href="/static/estilo.css">
+</head>
+
+<body>
+    <div class="app">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="url(#grad)" stroke-width="2">
+                    <defs>
+                        <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#6366f1" />
+                            <stop offset="100%" stop-color="#06b6d4" />
+                        </linearGradient>
+                    </defs>
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                    <circle cx="12" cy="16" r="1" />
+                </svg>
+                <h1>__SITE_NAME__</h1>
+            </div>
+            <span class="badge">v2.0</span>
+        </header>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab active" data-tipo="aleatorio">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5" />
+                </svg>
+                Aleatória
+            </button>
+            <button class="tab" data-tipo="memoravel">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+                </svg>
+                Memorável
+            </button>
+            <button class="tab" data-tipo="pin">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="2" y="4" width="20" height="16" rx="2" />
+                    <path d="M6 8h.01M10 8h.01M14 8h.01M18 8h.01M8 12h.01M12 12h.01M16 12h.01M10 16h4" />
+                </svg>
+                PIN
+            </button>
+        </div>
+
+        <!-- Senha Display -->
+        <div class="senha-box">
+            <div class="senha-texto" id="senhaDisplay">Clique em gerar...</div>
+            <div class="senha-acoes">
+                <button class="btn-icone" id="btnCopiar" title="Copiar">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="9" y="9" width="13" height="13" rx="2" />
+                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                    </svg>
+                </button>
+                <button class="btn-icone" id="btnGerar" title="Gerar nova">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M23 4v6h-6M1 20v-6h6" />
+                        <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Barra de Força -->
+        <div class="forca-container">
+            <div class="forca-barra">
+                <div class="forca-progresso" id="forcaProgresso"></div>
+            </div>
+            <div class="forca-info">
+                <span id="forcaRotulo">--</span>
+            </div>
+        </div>
+
+        <!-- Painel: Aleatória -->
+        <div class="painel" id="painelAleatorio">
+            <div class="controle-slider">
+                <label>Comprimento: <strong id="tamanhoValor">16</strong></label>
+                <input type="range" id="tamanho" min="4" max="64" value="16">
+            </div>
+            <div class="controles-grid">
+                <label class="check-item">
+                    <input type="checkbox" id="chkMaiusculas" checked>
+                    <span class="checkmark"></span>
+                    Maiúsculas (A-Z)
+                </label>
+                <label class="check-item">
+                    <input type="checkbox" id="chkNumeros" checked>
+                    <span class="checkmark"></span>
+                    Números (0-9)
+                </label>
+                <label class="check-item">
+                    <input type="checkbox" id="chkSimbolos" checked>
+                    <span class="checkmark"></span>
+                    Símbolos (!@#$)
+                </label>
+                <label class="check-item">
+                    <input type="checkbox" id="chkAmbiguos">
+                    <span class="checkmark"></span>
+                    Excluir ambíguos
+                </label>
+            </div>
+        </div>
+
+        <!-- Painel: Memorável -->
+        <div class="painel oculto" id="painelMemoravel">
+            <div class="controle-slider">
+                <label>Palavras: <strong id="palavrasValor">4</strong></label>
+                <input type="range" id="numPalavras" min="2" max="8" value="4">
+            </div>
+            <div class="controle-select">
+                <label>Separador:</label>
+                <select id="separador">
+                    <option value="-">Hífen (-)</option>
+                    <option value=".">Ponto (.)</option>
+                    <option value="_">Underscore (_)</option>
+                    <option value=" ">Espaço</option>
+                </select>
+            </div>
+            <div class="controles-grid">
+                <label class="check-item">
+                    <input type="checkbox" id="chkCapitalizar" checked>
+                    <span class="checkmark"></span>
+                    Capitalizar
+                </label>
+                <label class="check-item">
+                    <input type="checkbox" id="chkIncluirNum" checked>
+                    <span class="checkmark"></span>
+                    Incluir número
+                </label>
+            </div>
+        </div>
+
+        <!-- Painel: PIN -->
+        <div class="painel oculto" id="painelPin">
+            <div class="controle-slider">
+                <label>Dígitos: <strong id="pinValor">6</strong></label>
+                <input type="range" id="tamanhoPin" min="4" max="12" value="6">
+            </div>
+        </div>
+
+        <!-- Botão Gerar -->
+        <button class="btn-gerar" id="btnGerarPrincipal">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10" />
+            </svg>
+            Gerar Senha Segura
+        </button>
+
+        <!-- Stats -->
+        <div class="stats-row">
+            <div class="stat-chip">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                </svg>
+                Criptografia forte
+            </div>
+            <div class="stat-chip">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10" />
+                    <path d="M12 6v6l4 2" />
+                </svg>
+                Geração instantânea
+            </div>
+            <div class="stat-chip">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="11" width="18" height="11" rx="2" />
+                    <path d="M7 11V7a5 5 0 0110 0v4" />
+                </svg>
+                Protecoes ativas
+            </div>
+        </div>
+
+        <footer class="footer">
+            <p>__SITE_NAME__ &mdash; Gerador de senhas seguras</p>
+        </footer>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast">Senha copiada!</div>
+
+    <script src="/static/app.js"></script>
+</body>
+
+</html>

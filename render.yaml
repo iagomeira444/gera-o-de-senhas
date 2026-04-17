@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: gerador-senhas
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    autoDeploy: true
+    envVars:
+      - key: SITE_NAME
+        value: Gerador de Senhas
+      - key: DOMAIN
+        sync: false
+      - key: SITE_URL
+        sync: false
